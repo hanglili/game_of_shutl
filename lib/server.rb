@@ -7,6 +7,7 @@ module GameOfShutl
       quote = JSON.parse(params['quote'])
       vehicleType = quote['vehicle']
       price = ((quote['pickup_postcode'].to_i(36) - quote['delivery_postcode'].to_i(36)) / 1000).abs
+      vehicleType = priceLimit(price, vehicle)
       if (vehicleType == "bicycle")
         price = price + price * 0.1
       elseif (vehicleType == "motorbike")
@@ -20,7 +21,6 @@ module GameOfShutl
       else
         price = 0
         puts "Invalid vehicle"
-        vehicleType = "Invalid vehicle"
       end
       {
         quote: {
@@ -31,5 +31,26 @@ module GameOfShutl
         }
       }.to_json
     end
+
+    def priceLimit(price, vehicleType)
+      if (vehicleType != "bicycle" && vehicleType != "motorbike" &&
+          vehicleType != "parcel_car" && vehicleType != "small_van" &&
+          vehicleType != "large_van")
+        return "Invalid vehicle"
+      end
+
+      if (price <= 500)
+        return "bicycle"
+      elseif (price <= 750)
+        return "motorbike"
+      elseif (price <= 1000)
+        return "parcel_car"
+      elseif (price <= 1500)
+        return "small_van"
+      else
+        return "large_van"
+      end
+    end
+
   end
 end
