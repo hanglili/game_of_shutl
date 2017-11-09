@@ -6,8 +6,14 @@ module GameOfShutl
     post '/quotes' do
       quote = JSON.parse(params['quote'])
       vehicleType = quote['vehicle']
+      products = quote['products']
+      puts JSON.parse(twitter_result.body)[0]
       price = ((quote['pickup_postcode'].to_i(36) - quote['delivery_postcode'].to_i(36)) / 1000).abs
-      vehicleType = priceLimit(price, vehicle)
+      if vehicleType.nil?
+        vehicleType = sizeLimit(products)
+      else
+        vehicleType = priceLimit(price, vehicle)
+      end
       if (vehicleType == "bicycle")
         price = price + price * 0.1
       elseif (vehicleType == "motorbike")
@@ -52,5 +58,24 @@ module GameOfShutl
       end
     end
 
+    def sizeLimit(products)
+      product = products[0]
+
+      if (product.weight <= 3 && product.width <= 50 && product.height <= 50 &&
+          product.length <= 50)
+        return "bicycle"
+      elseif (product.weight <= 6 && product.width <= 35 &&
+              product.height <= 25 && product.length <= 25)
+        return "motorbike"
+      elseif (product.weight <= 50 && product.width <= 100 &&
+              product.height <= 100 && product.length <= 75)
+        return "parcel_car"
+      elseif (product.weight <= 400 && product.width <= 133 &&
+              product.height <= 133 && product.length <= 133)
+        return "small_van"
+      else
+        return "large_van"
+      end
+    end
   end
 end
