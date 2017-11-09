@@ -59,19 +59,19 @@ module GameOfShutl
     end
 
     def sizeLimit(products)
-      product = products[0]
-
-      if (product.weight <= 3 && product.width <= 50 && product.height <= 50 &&
-          product.length <= 50)
+      int weight = 0
+      int volume = 0
+      products.each { |product|
+        int weight += product.weight
+        int volume += product.width * product.length * product.height
+      }
+      if (weight <= 3 && volume <= (30 * 25 * 10))
         return "bicycle"
-      elseif (product.weight <= 6 && product.width <= 35 &&
-              product.height <= 25 && product.length <= 25)
+      elseif (weight <= 6 && volume <= (35 * 25 * 25))
         return "motorbike"
-      elseif (product.weight <= 50 && product.width <= 100 &&
-              product.height <= 100 && product.length <= 75)
+      elseif (weight <= 50 && volume <= (100 * 100 * 75))
         return "parcel_car"
-      elseif (product.weight <= 400 && product.width <= 133 &&
-              product.height <= 133 && product.length <= 133)
+      elseif (weight <= 400 && volume <= (133 * 133 * 133))
         return "small_van"
       else
         return "large_van"
