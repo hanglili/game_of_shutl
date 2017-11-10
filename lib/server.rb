@@ -16,15 +16,15 @@ module GameOfShutl
       else
         vehicleType = priceLimit(price, vehicle, isVersion0)
       end
-      if (vehicleType == "bicycle")
+      if (vehicleType == "bicycle" || vehicleType == 1)
         price = price + price * 0.1
-      elseif (vehicleType == "motorbike")
+      elseif (vehicleType == "motorbike" || vehicleType == 2)
         price = price + price * 0.15
-      elseif (vehicleType == "parcel_car")
+      elseif (vehicleType == "parcel_car" || vehicleType == 3)
         price = price + price * 0.2
-      elseif (vehicleType == "small_van")
+      elseif (vehicleType == "small_van" || vehicleType == 4)
         price = price + price * 0.3
-      elseif (vehicleType == "large_van")
+      elseif (vehicleType == "large_van" || vehicleType == 5)
         price = price + price * 0.4
       else
         price = 0
@@ -71,25 +71,25 @@ module GameOfShutl
         if (isVersion0)
           return "motorbike"
         else
-          return 1
+          return 2
         end
       elseif (price <= 1000)
         if (isVersion0)
           return "parcel_car"
         else
-          return 1
+          return 3
         end
       elseif (price <= 1500)
         if (isVersion0)
           return "small_van"
         else
-          return 1
+          return 4
         end
       else
         if (isVersion0)
           return "large_van"
         else
-          return 1
+          return 5
         end
       end
     end
